@@ -63,7 +63,7 @@ const addSchool = async (req, res) => {
         success: false,
         message: "Longitude must inbetween -180 and 180",
       });
-
+    }
       const query = `INSERT INTO schools (name, address, latitude, longitude) VALUES (?,?,?,?)`;
 
       const [result] = await db.execute(query, [
@@ -78,7 +78,7 @@ const addSchool = async (req, res) => {
         message: "School added successfully",
         schoolId: result.insertId,
       });
-    }
+    
   } catch (error) {
     console.error("Error in addSchool:", error);
     res.status(500).json({
@@ -92,7 +92,7 @@ const listSchools = async (req, res) => {
   try {
     const { lat, lon } = req.query;
 
-    if (!lat || !lon) {
+    if (lat === undefined || lon === undefined) {
       return res.status(400).json({
         success: false,
         message: "Latitude and Longitude are required",
